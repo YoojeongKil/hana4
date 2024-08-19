@@ -9,13 +9,38 @@
 
   <body>
     <div
+      class="h-36 items-stretch hover:items-center flex mb-3 flex-row flex-wrap gap-2 justify-around flex-auto"
+    >
+      <div class="basis-1/2 bg-red-300">111</div>
+      <div class="bg-blue-300 basis-1/4">222</div>
+      <div class="bg-yellow-300 basis-1/4">333</div>
+      <div class="bg-slate-300">444</div>
+      <div class="bg-green-300">555</div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-3">
+      <div class="w-32 bg-red-300 order-2">111</div>
+      <div class="w-32 bg-blue-300 order-1">222</div>
+      <div class="w-32 bg-yellow-300 order-3">333</div>
+      <div class="w-32 bg-slate-300 order-4">444</div>
+      <div class="w-32 bg-green-300 order-5">555</div>
+    </div>
+
+    <div class="m-3 p-3">
+      <button class="btn">btn</button>
+      <button class="btn btn-primary">btn-primary</button>
+      <button class="btn btn-danger">btn-danger</button>
+      <button class="btn btn-success">btn-success</button>
+    </div>
+
+    <div
       class="containerx mx-autox h-lvh w-fullx min-w-full bg-no-repeat bg-center bg-cover"
       style="
         background-image: url('https://cdn.pixabay.com/photo/2024/02/17/13/38/cabin-8579310_1280.jpg');
       "
     >
       <h1
-        class="text-4xl text-red-500 hover:text-red-700 font-extrabold underline underline-offset-1 bg-danger"
+        class="text-4xl text-white hover:text-black font-extrabold underline underline-offset-1 bg-danger"
       >
         Title
       </h1>
