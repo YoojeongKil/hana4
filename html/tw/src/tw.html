@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tailwind Playground</title>
+    <link rel="stylesheet" href="../dist/output.css" />
+  </head>
+
+  <body>
+    <div
+      class="containerx mx-autox h-lvh w-fullx min-w-full bg-no-repeat bg-center bg-cover"
+      style="
+        background-image: url('https://cdn.pixabay.com/photo/2024/02/17/13/38/cabin-8579310_1280.jpg');
+      "
+    >
+      <h1
+        class="text-4xl text-red-500 hover:text-red-700 font-extrabold underline underline-offset-1 bg-danger"
+      >
+        Title
+      </h1>
+
+      <div
+        class="text-3xl text-big w-full text-ellipsis overflow-hidden text-nowrap"
+      >
+        Loremipsum dolor sit, amet consectetur adipisicing elit. Iure totam
+        voluptatem animi, assumenda optio, quasi placeat nulla laboriosam
+        commodi officia, ex harum sequi rerum. Dicta amet commodi dolores maxime
+        ad.
+      </div>
+
+      <ul class="border border-red-300 p-3 m-100">
+        <li class="text-blue-500 first:bg-red-500">111111</li>
+        <li class="text-green-500 first:bg-red-500">222</li>
+        <li class="text-gray-500 first:bg-red-500">333</li>
+        <li class="last:bg-sky-500">444</li>
+      </ul>
+
+      <div
+        class="bg-gradient-to-b via-black from-slate-300 to-blue-300 h-96 text-center"
+      >
+        <button
+          class="w-96 h-60 bg-green-300 text-3xl hover:bg-green-100 transition-all duration-700 delay-200 hover:animate-bounce"
+        >
+          Animation
+        </button>
+        <button
+          class="mt-5 w-60 h-60 bg-blue-300 text-3xl hover:bg-blue-100 hover:scale-150 hover:rotate-6 duration-500"
+        >
+          Animation
+        </button>
+        <button
+          class="mt-5 w-60 h-60 bg-blue-300 text-3xl hover:bg-blue-100 translate-x-4 skew-y-3"
+        >
+          Animation
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
