@@ -69,12 +69,16 @@ switch (bloodType) {
 console.log("🚀 sports:", sports)
 
 console.log('------------------');
-x = 3;
-let ret = x === 2 ? 'two' : x === 3 ? 'three' : 'ELSE';
-console.log("🚀 ret:", ret)
+x = 30;
+let ret = x === 1 ? 'one' : x === 2 ? 'two' : x === 3 ? 'three' : 'ELSE';
+console.log('🚀  ret:', ret);
 
-ret = (x === 1 ? 'one' : '') || (x === 2 ? 'two' : '') || (x === 3 ? 'three' : '') || 'ELSE';
-console.log("🚀 ret:", ret)
+ret =
+  (x === 1 ? 'one' : '') ||
+  (x === 2 ? 'two' : '') ||
+  (x === 3 ? 'three' : '') ||
+  'ELSE';
+console.log('🚀  ret:', ret);
 
 const alpha = ['zero', 'one', 'two', 'three'];
 console.log('🚀  ret:', alpha[x] ?? 'ELSE');
