@@ -33,7 +33,10 @@ function ex2() {
   });
   console.log("🚀  obj:", obj);
 
-  Object.freeze(obj, "role");
+  // Object.freeze(obj); // apply whole properties
+  Object.defineProperty(obj, "role", {
+    writable: false,
+  });
   console.log(Object.getOwnPropertyDescriptors(obj));
 }
 // ex2();
