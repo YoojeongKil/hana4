@@ -8,31 +8,76 @@ const assert = require("assert");
 //   }
 // }
 
-class Stack {
-  #arr;
-  // 1) new stack(1,2,3) ==> [1,2,3]
-  // 2) new stack([1,2,3]) ==> [[1,2,3]]
-  // 3) new Stack([[1,2,3]]) ==> [[[1,2,3]]]
+// Stack, Queue, ArrayList
+class Collection {
+  #arr = [];
+
   constructor(...args) {
-    // this.arr = Array.isArray(args[0]) ? [...args] : args;
-    this.#arr = [...args];
+    this.#arr.push(...args);
   }
 
-  // 1) push(1) <= arguements.length === 1
-  // 2) push(1,2)
+  get _arr() {
+    return this.#arr;
+  }
+
   push(...args) {
-    // cf. front-end
-    // this.arr = [...this.arr, ...args];
     this.#arr.push(...args);
     return this.#arr;
   }
 
-  pop() {
-    return this.#arr.pop();
+  get peek() {
+    return this.#isQueue() ? this.#arr[0] : this.#arr.at(-1);
+  }
+
+  get poll() {
+    return this.#isQueue() ? this.#arr.shift() : this.#arr.pop();
+  }
+
+  remove() {
+    return this.poll;
+  }
+
+  get length() {
+    return this.#arr.length;
+  }
+
+  get isEmpty() {
+    return !this.#arr.length;
+  }
+
+  clear() {
+    this.#arr.length = 0;
   }
 
   toArray() {
-    return this.#arr;
+    return this.#isQueue() ? this.#arr.toReversed() : this.#arr;
+  }
+
+  print() {
+    console.log(`<${this.constructor.name}: [${this.toArray()}]>`);
+  }
+
+  #isQueue() {
+    // console.log('>>', this.constructor.name); // exact-matching
+    return this instanceof Queue;
+  }
+}
+
+class Stack extends Collection {
+  pop() {
+    // return this.#arr.pop();
+    return this._arr.pop();
+  }
+}
+
+class Queue extends Collection {
+  enqueue(...args) {
+    this.push(...args);
+    return this._arr;
+  }
+
+  dequeue() {
+    return this._arr.shift();
   }
 }
 
@@ -56,33 +101,22 @@ assert.strictEqual(stack2.pop(), 3);
 stack2.push(4, 5); // 추가하기
 assert.deepStrictEqual(stack2.toArray(), [1, 2, 2, 4, 5]);
 
-// Todo: check side-effect!!
+assert.strictEqual(stack2.peek, 5);
+assert.strictEqual(stack2.poll, 5);
+assert.deepStrictEqual(stack2.toArray(), [1, 2, 2, 4]);
+assert.strictEqual(stack2.remove(), 4);
+assert.deepStrictEqual(stack2.toArray(), [1, 2, 2]);
+
 stack2.arr = [5, 6, 7]; //error
 assert.notDeepStrictEqual(stack2.toArray(), [5, 6, 7]);
+stack2.print();
 
-//--------------------------
-class Queue {
-  #arr;
+stack2.clear();
+assert.deepStrictEqual(stack2.toArray(), []);
+assert.strictEqual(stack2.isEmpty, true);
 
-  constructor(...args) {
-    // this.arr = Array.isArray(args[0]) ? [...args] : args;
-    this.#arr = [...args];
-  }
+//--------------------------------
 
-  enqueue(...args) {
-    // this.#arr.push(...args);
-    this.#arr.unshift(...args.reverse());
-    return this.#arr;
-  }
-
-  dequeue() {
-    return this.#arr.pop();
-  }
-
-  toArray() {
-    return this.#arr;
-  }
-}
 const queue = new Queue();
 assert.deepStrictEqual(queue.toArray(), []);
 queue.enqueue(3); // 추가하기
@@ -93,3 +127,16 @@ assert.strictEqual(queue.dequeue(), 3);
 assert.deepStrictEqual(queue.toArray(), [2]);
 queue.enqueue(5, 6); // 추가하기
 assert.deepStrictEqual(queue.toArray(), [6, 5, 2]);
+queue.print();
+
+assert.strictEqual(queue.peek, 2); // [6, 5, 2] ==>
+assert.strictEqual(queue.poll, 2); // [6, 5]
+assert.strictEqual(queue.remove(), 5); // [6]
+assert.deepStrictEqual(queue.toArray(), [6]);
+
+queue.clear();
+assert.deepStrictEqual(queue.toArray(), []);
+assert.strictEqual(queue.isEmpty, true);
+
+const queue2 = new Queue(1, 2);
+assert.deepStrictEqual(queue2.toArray(), [2, 1]);
