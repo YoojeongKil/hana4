@@ -49,16 +49,23 @@ class Collection {
     this.#arr.length = 0;
   }
 
+  iterator() {
+    return this[Symbol.iterator]();
+  }
+
   // [1, 2, 3]
-  [Symbol.iterator]() {
-    let idx = 0;
-    const arr = this.toArray();
-    return {
-      next: () => ({
-        value: arr[idx++],
-        done: this.length < idx,
-      }),
-    };
+  *[Symbol.iterator]() {
+    for (let i = this.length - 1; i >= 0; i -= 1) {
+      yield this.toArray()[i];
+    }
+    // let idx = 0;
+    // const arr = this.toArray();
+    // return {
+    //   next: () => ({
+    //     value: arr[idx++],
+    //     done: this.length < idx,
+    //   }),
+    // };
 
     // let len = this.length;
     // return {
@@ -112,12 +119,28 @@ assert.deepStrictEqual(stack.toArray(), []);
 
 stack.push(1, 2, 3);
 const itStack = stack[Symbol.iterator]();
-console.log("🚀  itStack:", itStack.next());
-console.log("🚀  itStack:", itStack.next());
-console.log("🚀  itStack:", itStack.next());
-console.log("🚀  itStack:", itStack.next());
-console.log("...stack>>", [...stack]);
-assert.deepStrictEqual([...stack], stack.toArray());
+
+for (const s of stack) {
+  console.log("s=", s);
+}
+// console.log('🚀  itStack:', itStack.next());
+// console.log('🚀  itStack:', itStack.next());
+// console.log('🚀  itStack:', itStack.next());
+// console.log('🚀  itStack:', itStack.next());
+// console.log('...stack>>', [...stack]);
+assert.deepStrictEqual([...stack], stack.toArray().toReversed());
+
+const len = stack.length;
+for (let i = 0; i < len; i++) {
+  assert.deepStrictEqual(itStack.next(), {
+    value: stack.poll,
+    done: false,
+  });
+}
+assert.deepStrictEqual(itStack.next(), {
+  value: undefined,
+  done: true,
+});
 
 const stackT = new Stack(...[[1], [2]]);
 assert.deepStrictEqual(stackT.toArray(), [[1], [2]]);
@@ -131,7 +154,7 @@ assert.strictEqual(stack2.pop(), 3);
 // assert.deepStrictEqual(stack2.toArray(), [1, 2]);
 stack2.push(4, 5); // 추가하기
 assert.deepStrictEqual(stack2.toArray(), [1, 2, 2, 4, 5]);
-assert.deepStrictEqual([...stack2], [1, 2, 2, 4, 5]);
+assert.deepStrictEqual([...stack2], stack2.toArray().toReversed());
 
 assert.strictEqual(stack2.peek, 5);
 assert.strictEqual(stack2.poll, 5);
@@ -159,7 +182,7 @@ assert.strictEqual(queue.dequeue(), 3);
 assert.deepStrictEqual(queue.toArray(), [2]);
 queue.enqueue(5, 6); // 추가하기
 assert.deepStrictEqual(queue.toArray(), [6, 5, 2]);
-assert.deepStrictEqual([...queue], [6, 5, 2]);
+assert.deepStrictEqual([...queue], queue.toArray().toReversed());
 queue.print();
 
 assert.strictEqual(queue.peek, 2); // [6, 5, 2] ==>
@@ -171,5 +194,31 @@ queue.clear();
 assert.deepStrictEqual(queue.toArray(), []);
 assert.strictEqual(queue.isEmpty, true);
 
-const queue2 = new Queue(1, 2);
-assert.deepStrictEqual(queue2.toArray(), [2, 1]);
+const queue2 = new Queue(1, 2, 3);
+assert.deepStrictEqual(queue2.toArray(), [3, 2, 1]);
+
+const itQueue2 = queue2.iterator();
+console.log("🚀  itQueue2:", itQueue2, queue2.peek);
+const qlen = queue2.length;
+for (let i = 0; i < qlen; i++) {
+  assert.deepStrictEqual(itQueue2.next(), {
+    value: queue2.poll,
+    done: false,
+  });
+}
+assert.deepStrictEqual(itQueue2.next(), {
+  value: queue2.poll,
+  done: true,
+});
+
+const queue3 = new Queue(1, 2, 3, 4);
+for (const q of queue3) {
+  console.log("q=", q);
+}
+console.log("-------------", [...queue3]);
+let itq = queue3.iterator();
+let value, done;
+while (({ value, done } = itq.next())) {
+  if (done) break;
+  console.log("****", value);
+}
