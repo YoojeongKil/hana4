@@ -1,4 +1,5 @@
-const assert = require("assert");
+// const assert = require("assert");
+import assert from "assert";
 
 const fmt = ([label, unit], price) =>
   `${label}${price.toLocaleString().padStart(9)}${unit}`;
@@ -61,7 +62,7 @@ const 자음알파벳숫자 = [..."LMNRlmnr136780"].map((a) => a.charCodeAt());
 function isEndJaum(str) {
   const s = str.charCodeAt(str.length - 1);
   // console.log('🚀  s:', s, str.charCodeAt(str.length - 1));
-  console.log(str, s - 가, (s - 가) % 28, 자음알파벳숫자.includes(s));
+  // console.log(str, s - 가, (s - 가) % 28, 자음알파벳숫자.includes(s));
   // if (s >= ㄱ && s <= ㅎ) return true;
   // if (자음알파벳숫자.includes(s)) return true;
 

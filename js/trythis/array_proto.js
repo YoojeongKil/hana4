@@ -1,4 +1,5 @@
-const assert = require("assert");
+import assert from "assert";
+import "../utils/array-utils.js";
 
 Object.defineProperties(Array.prototype, {
   firstObject: {
@@ -35,35 +36,6 @@ const arr3 = [1];
 assert.deepStrictEqual([arr3.firstObject, arr3.lastObject], [1, 1]);
 
 // ---------------------
-Array.prototype.mapBy = function (prop) {
-  return this.map((a) => a[prop]);
-};
-Array.prototype.filterBy = function (prop, value, isIncludes = false) {
-  const cb = isIncludes
-    ? (a) => a[prop]?.includes(value)
-    : (a) => a[prop] === value;
-
-  return this.filter(cb);
-};
-Array.prototype.rejectBy = function (prop, value, isIncludes = false) {
-  const cb = isIncludes
-    ? (a) => !a[prop]?.includes(value)
-    : (a) => a[prop] !== value;
-
-  return this.filter(cb);
-};
-
-Array.prototype.findBy = function (prop, value) {
-  return this.find((a) => a[prop] === value);
-};
-
-Array.prototype.sortBy = function (prop) {
-  // name | name:desc | name:asc
-  const [key, direction = "asc"] = prop?.split(":");
-  const dir = direction.toLowerCase() === "desc" ? -1 : 1;
-  // console.log('🚀  dir:', dir, prop);
-  return this.sort((a, b) => (a[key] > b[key] ? dir : -dir));
-};
 
 const hong = { id: 1, name: "Hing" };
 const kim = { id: 2, name: "Kim" };
@@ -106,7 +78,7 @@ function uniq() {
   const users = [hong, kim, lee, park, ko, loon, choi];
   users.uniqBy("dept"); // [ 'HR', 'Server', 'Front', 'Sales' ]
 
-  // console.log(users.uniqBy("dept"));
+  // console.log(users.uniqBy('dept'));
 
   assert.deepStrictEqual(users.uniqBy("dept"), [
     "HR",

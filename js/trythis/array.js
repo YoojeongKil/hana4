@@ -1,5 +1,5 @@
 "use strict";
-const assert = require("assert");
+import assert from "assert";
 
 let arr = [1, 2, 3, 4];
 const push = (arr, ...args) => [...arr, ...args];
@@ -123,29 +123,30 @@ const classNames = (...args) =>
 // .replaceAll('  ', ' ');
 
 const ret2 = classNames("", " a  b    c ", " d", " ", "e"); // cf. clsx
-// console.log("🚀  ret2:", ret2);
+// console.log('🚀  ret2:', ret2);
 assert.strictEqual(ret2, "a b c d e");
 
-// ---------------------------
+// ------------------------------------
 const reduce = (arr, fn, initValue) => {
   if (!arr || !Array.isArray(arr)) return [];
 
   let i = 0;
   let acc = initValue ?? ((i = 1), arr[0]);
-  //   if (!initValue) {
-  //     acc = arr[0];
-  //     i = 1;
-  //   }
+  // if (!initValue) {
+  //   acc = arr[0];
+  //   i = 1;
+  // }
 
   for (; i < arr.length; i++) {
     acc = fn(acc, arr[i]);
   }
+
   return acc;
 };
+
 const r1 = reduce([1, 2, 3], (a, b) => a + b, 0); // 6이면 통과!
 const r2 = reduce([1, 2, 3], (a, b) => a + b); // 6이면 통과!
-
-// console.log("🚀  r:", r1, r2);
+// console.log('🚀  r:', r1, r2);
 // cf. [1,2,3].reduce((a,b) => a + b, 0);       // 6
 reduce([1, 2, 3, 4, 5], (a, b) => a + b); // 15면 통과!
 reduce([1, 2, 3, 4, 5], (a, b) => a * b, 1); // 120이면 통과!
@@ -164,17 +165,18 @@ assert.deepStrictEqual(
   users.reduce((acc, user) => acc + user.name)
 );
 
-// ---------------------------
+// ----------------------------
 const square = (a) => a ** 2;
 const sqrt = (a) => Math.sqrt(a);
 const cube = (a) => a ** 3;
+
 arr = [1, 2, 3, 4, 5];
 const r5 = arr.map(square).map(sqrt).map(cube);
-// console.log("🚀  r5:", r5);
+// console.log('🚀  r5:', r5);
 
 const baseJobs = [square, sqrt, cube];
 const r6 = arr.map((a) => baseJobs.reduce((acc, job) => job(acc), a));
-// console.log("🚀  r6:", r6);
+// console.log('🚀  r6:', r6);
 
 const aJobs = [square, sqrt, cube];
 const bJobs = [cube, square];
@@ -185,8 +187,10 @@ const robot = (arr, jobs) =>
 assert.deepStrictEqual(robot(arr, aJobs), [1, 8, 27, 64, 125]);
 assert.deepStrictEqual(robot(arr, bJobs), [1, 64, 729, 4096, 15625]);
 
-// ---------------------------
-//O(n^2)
+// --------------------------------
+// O(n^2)
+// i: 1, 3, 4, 5
+// j: 1, 3, 4, 5
 const keyPairN2 = (arr, n) => {
   for (let i = 0; i < arr.length; i += 1) {
     for (let j = 0; j < arr.length; j++) {
@@ -205,10 +209,9 @@ const keyPair = (arr, n) => {
     cache[n - val] = i;
   }
 };
-
-// const k1 = keyPair([1, 6, 4, 5], 7); // [0, 1]
+// const k1 = keyPair([1, 6, 3, 4, 5], 7); // [1, 2]
 const k1 = keyPair([1, 3, 4, 5], 7); // [1, 2]
-// console.log("🚀  k1:", k1);
+// console.log('🚀  k1:', k1);
 keyPair([1, 4, 45, 6, 10, 8], 16); // [3, 4]
 keyPair([1, 2, 4, 3, 6], 10); // [2, 4]
 keyPair([1, 2, 3, 4, 5, 7], 9); // [3, 4]  or [1, 5]
@@ -218,96 +221,4 @@ assert.deepStrictEqual(keyPair([1, 4, 45, 6, 10, 8], 16), [3, 4]);
 assert.deepStrictEqual(keyPair([1, 2, 4, 3, 6], 10), [2, 4]);
 assert.deepStrictEqual(keyPair([1, 2, 3, 4, 5, 7], 9), [3, 4]);
 
-// ---------------------------
-/*
-* rule f(s, e, step)
- - step 기본값 = s > e ? -1 : 1
- - step === 0 || s === e ? [s]
-
-- 비정상
-  ⇒ s > e && step > 0 ? []
-  ⇒ s < e && setp < 0 ? []
-  즉, (s - e) * step > 0
-
-  - e 가 없다면,
-  ⇒ s > 0 ? e = s, s = 1
-  ⇒ s < 0 ? e = -1
-  ⇒ s === 0 ? [0]
-*/
-
-const range = (start, end, step = start > end ? -1 : 1) => {
-  if (step === 0 || start === end) return [start];
-
-  if ((start - end) * step > 0) return [];
-  //   if ((start > end && step > 0) || (start < end && step < 0)) return [];
-
-  //   if (end === undefined) {
-  //     if (start > 0) {
-  //       end = start;
-  //       start = 1;
-  //     } else if (start < 0) {
-  //       end = -1;
-  //     } else {
-  //       //   end = 0;
-  //       return [0];
-  //     }
-  //   }
-
-  //   if (end === undefined && start === 0) return [0];
-
-  let tmp = start;
-  //   end = end ?? (start > 0 ? ((start = 1), tmp) : start % 2); // 짝수일 때 문제발생 (e.g. -2)
-  end = end ?? (start > 0 ? ((start = 1), tmp) : start < 0 ? -1 : 0);
-
-  const results = [];
-  for (let i = start; start > end ? i >= end : i <= end; i += step) {
-    results.push(i);
-  }
-
-  return results;
-};
-const rng1 = range(1, 10, 1); // [1, 2, 3, 4,  5, 6, 7, 8, 9, 10]
-console.log("🚀  rng1:", rng1);
-const rng2 = range(1, 10, 2); // [1, 3, 5, 7, 9]
-console.log("🚀  rng2:", rng2);
-
-const rng_2 = range(-2);
-console.log("🚀  rng_2:", rng_2);
-
-assert.deepStrictEqual(range(1, 10, 1), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-assert.deepStrictEqual(range(1, 10, 2), [1, 3, 5, 7, 9]);
-assert.deepStrictEqual(range(1, 10), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-assert.deepStrictEqual(range(10, 1), [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
-
-assert.deepStrictEqual(range(5, 5, 0), [5]);
-assert.deepStrictEqual(range(1, 5, 0), [1]);
-assert.deepStrictEqual(range(5, 5, -1), [5]);
-assert.deepStrictEqual(range(5, 5), [5]);
-assert.deepStrictEqual(range(0, 0, 5), [0]);
-assert.deepStrictEqual(range(1, 5, -1), []);
-
-assert.deepStrictEqual(range(1, 5, 6), [1]);
-assert.deepStrictEqual(range(0, 5), [0, 1, 2, 3, 4, 5]);
-assert.deepStrictEqual(range(-3, 0), [-3, -2, -1, 0]);
-assert.deepStrictEqual(range(-2), [-2, -1]);
-
-assert.deepStrictEqual(range(5, 1, 1), []);
-assert.deepStrictEqual(range(0, -1), [0, -1]);
-assert.deepStrictEqual(range(0, -3), [0, -1, -2, -3]);
-assert.deepStrictEqual(range(5, 1), [5, 4, 3, 2, 1]);
-assert.deepStrictEqual(range(10, 1, -2), [10, 8, 6, 4, 2]);
-
-assert.deepStrictEqual(range(5), [1, 2, 3, 4, 5]);
-assert.deepStrictEqual(range(0), [0]);
-assert.deepStrictEqual(range(0, 0), [0]);
-assert.deepStrictEqual(range(2, 1, -5), [2]);
-assert.deepStrictEqual(range(0, -1, -5), [0]);
-assert.deepStrictEqual(range(-5), [-5, -4, -3, -2, -1]);
-assert.deepStrictEqual(
-  range(50),
-  Array.from({ length: 50 }, (_, i) => i + 1)
-);
-assert.deepStrictEqual(
-  range(1, 150, 3),
-  Array.from({ length: 50 }, (_, i) => i * 3 + 1)
-);
+// ------------------------------------

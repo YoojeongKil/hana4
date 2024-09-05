@@ -1,5 +1,4 @@
-const assert = require("assert");
-
+import assert from "assert";
 // function Stack() {
 //   const arr = [];
 //   return {
