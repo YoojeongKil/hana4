@@ -39,4 +39,4 @@ function testing() {
 }
 // testing();
 
-export { josa, eunun, eulul, eyuya, rang };
+export { iga, josa, eunun, eulul, eyuya, rang };
