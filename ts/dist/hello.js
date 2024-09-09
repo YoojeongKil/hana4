@@ -1,0 +1,11 @@
+"use strict";
+const myName = "Yoojeong";
+console.log(`Hello, ${myName}`);
+const myAge = 25;
+console.log(`${myAge} years old!`);
+let x;
+x = 1;
+console.log("🚀  x:", x);
+x = "abc";
+console.log("🚀  x:", x);
+const len = x.length;
