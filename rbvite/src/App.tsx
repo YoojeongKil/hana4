@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import Hello from './components/Hello';
+import { useRef, useState } from 'react';
+import Hello, { MyHandler } from './components/Hello';
 import My from './components/My';
 import { flushSync } from 'react-dom';
 
@@ -19,6 +19,8 @@ export type Session = { loginUser: LoginUser | null; cart: CartItem[] };
 function App() {
   const [count, setCount] = useState(0);
   const [session, setSession] = useState<Session>(SampleSession);
+
+  const myHandleRef = useRef<MyHandler>(null);
 
   const plusCount = () => {
     // setCount((pre) => pre + 1);
@@ -66,6 +68,7 @@ function App() {
         count={count}
         plusCount={plusCount}
         minusCount={minusCount}
+        ref={myHandleRef}
       />
       <hr />
       <pre>{JSON.stringify(session.loginUser)}</pre>
@@ -81,6 +84,7 @@ function App() {
             setCount((count) => count + 1);
             if (session.loginUser) session.loginUser.name = 'XXX' + count;
             console.table(session.loginUser);
+            myHandleRef.current?.jumpHelloState();
           }}
           className='btn'
         >

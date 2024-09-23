@@ -2,6 +2,8 @@ import { FaTrashCan } from 'react-icons/fa6';
 import { Session } from '../App.tsx';
 import Login from './Login.tsx';
 import Profile from './Profile.tsx';
+import Button from './atoms/Button.tsx';
+import { useRef } from 'react';
 
 type Props = {
   session: Session;
@@ -11,6 +13,8 @@ type Props = {
 };
 
 export default function My({ session, logout, login, removeCartItem }: Props) {
+  const logoutButtonRef = useRef<HTMLButtonElement>(null);
+
   const removeItem = (id: number) => {
     if (confirm('Are u sure?')) {
       removeCartItem(id);
@@ -20,7 +24,13 @@ export default function My({ session, logout, login, removeCartItem }: Props) {
   return (
     <>
       {session.loginUser ? (
-        <Profile session={session} logout={logout} />
+        <>
+          <Profile session={session} logout={logout} ref={logoutButtonRef} />
+          <Button
+            onClick={() => logoutButtonRef.current?.focus()}
+            text='MySignOut'
+          />
+        </>
       ) : (
         <Login login={login} />
       )}

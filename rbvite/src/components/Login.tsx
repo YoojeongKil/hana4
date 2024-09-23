@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { FormEvent, useRef } from 'react';
 import Button from './atoms/Button';
 import LabelInput from './molecules/LabelInput';
 
@@ -7,16 +7,20 @@ export default function Login({
 }: {
   login: (id: number, name: string) => void;
 }) {
-  const [id, setId] = useState(0);
-  const [name, setName] = useState('');
+  // const [id, setId] = useState(0);
+  // const [name, setName] = useState('');
+  const idRef = useRef<HTMLInputElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
 
   const signIn = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const id = idRef.current?.value;
+    const name = nameRef.current?.value;
     if (!id || !name) {
       alert('Input the id & name!!');
       return;
     }
-    login(id, name);
+    login(+id, name);
   };
   // const signIn = (e: FormEvent<HTMLFormElement>) => {
   //   e.preventDefault();
@@ -35,9 +39,10 @@ export default function Login({
   //   login(+id.value, name.value);
   // };
 
-  const changeName = (e: ChangeEvent<HTMLInputElement>) => {
-    setName(e.currentTarget.value);
-  };
+  // const changeName = (e: ChangeEvent<HTMLInputElement>) => {
+  //   console.log('nnnnnnnn>>', name);
+  //   setName(e.currentTarget.value);
+  // };
 
   return (
     <>
@@ -45,9 +50,22 @@ export default function Login({
         <LabelInput
           label='ID'
           type='number'
-          onChange={(e) => setId(+e.currentTarget.value)}
+          ref={idRef}
+          // onChange={(e) => setId(+e.currentTarget.value)}
         />
-        <LabelInput label='Name' type='text' onChange={changeName} />
+        <div className='flex'>
+          <label htmlFor='name' className='w-24'>
+            Name:
+          </label>
+          <input
+            id='name'
+            type='text'
+            ref={nameRef}
+            placeholder='Name...'
+            className='inp'
+            // onChange={changeName}
+          />
+        </div>
         {/* <div className='flex'>
         <label htmlFor='id' className='w-24'>
           ID:
@@ -76,6 +94,7 @@ export default function Login({
         {/* <button className='btn btn-success float-end mt-3'>Sign In</button> */}
         <Button
           text='Sign In'
+          type='submit'
           variant='btn-success'
           classNames='float-end mt-3'
         />
