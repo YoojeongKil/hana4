@@ -14,7 +14,7 @@ export default function Profile({ session, logout }: Props) {
         Sign Out
       </button>
 
-      <Button onClick={logout} text='SignOut' />
+      <Button onClick={logout} text='Sign Out' />
     </div>
   );
 }

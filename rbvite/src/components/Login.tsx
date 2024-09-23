@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import Button from './atoms/Button';
 import LabelInput from './molecules/LabelInput';
 
@@ -35,6 +35,10 @@ export default function Login({
   //   login(+id.value, name.value);
   // };
 
+  const changeName = (e: ChangeEvent<HTMLInputElement>) => {
+    setName(e.currentTarget.value);
+  };
+
   return (
     <>
       <form onSubmit={signIn} className='border p-4'>
@@ -43,11 +47,7 @@ export default function Login({
           type='number'
           onChange={(e) => setId(+e.currentTarget.value)}
         />
-        <LabelInput
-          label='Name'
-          type='text'
-          onChange={(e) => setName(e.currentTarget.value)}
-        />
+        <LabelInput label='Name' type='text' onChange={changeName} />
         {/* <div className='flex'>
         <label htmlFor='id' className='w-24'>
           ID:
