@@ -3,17 +3,29 @@ import { Session } from '../App.tsx';
 import Login from './Login.tsx';
 import Profile from './Profile.tsx';
 import Button from './atoms/Button.tsx';
-import { useRef } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 
 type Props = {
   session: Session;
   logout: () => void;
   login: (id: number, name: string) => void;
   removeCartItem: (id: number) => void;
+  addCartItem: (name: string, price: number) => void;
 };
 
-export default function My({ session, logout, login, removeCartItem }: Props) {
+export default function My({
+  session,
+  logout,
+  login,
+  removeCartItem,
+  addCartItem,
+}: Props) {
+  const [isEditing, setIsEditing] = useState(false);
   const logoutButtonRef = useRef<HTMLButtonElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const priceRef = useRef<HTMLInputElement>(null);
+
+  const toggleEditing = () => setIsEditing((pre) => !pre);
 
   const removeItem = (id: number) => {
     if (confirm('Are u sure?')) {
@@ -21,27 +33,46 @@ export default function My({ session, logout, login, removeCartItem }: Props) {
     }
   };
 
+  const saveItem = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const name = nameRef.current?.value;
+    const price = priceRef.current?.value;
+    // console.log('🚀  name/price:', name, price);
+    if (!name) {
+      alert('상품명을 입력하세요!');
+      return nameRef.current?.focus();
+    } else if (!price) {
+      alert('금액을 입력하세요!');
+      return priceRef.current?.focus();
+    }
+
+    addCartItem(name, +price);
+    nameRef.current.value = '';
+    priceRef.current.value = '';
+    nameRef.current.focus();
+  };
+
   return (
     <>
       {session.loginUser ? (
-        <>
+        <div className='flex gap-5'>
           <Profile session={session} logout={logout} ref={logoutButtonRef} />
           <Button
             onClick={() => logoutButtonRef.current?.focus()}
             text='MySignOut'
           />
-        </>
+        </div>
       ) : (
         <Login login={login} />
       )}
 
-      <ul className='my-3 w-1/2 border p-3'>
+      <ul className='my-3 w-2/3 border p-3'>
         {session.cart?.length ? (
           session.cart.map(({ id, name, price }) => (
             <li key={id} className='flex justify-between'>
               <strong>
                 {id}. {name}
-                <small className='font-light text-gray-500'>
+                <small className='ml-2 font-light text-gray-500'>
                   {price.toLocaleString()}원
                 </small>
               </strong>
@@ -56,6 +87,28 @@ export default function My({ session, logout, login, removeCartItem }: Props) {
         ) : (
           <li className='text-slate-500'>There is no items.</li>
         )}
+        <li className='mt-3 text-center'>
+          {isEditing ? (
+            <form onSubmit={saveItem} className='mt-3 flex gap-3'>
+              <input
+                ref={nameRef}
+                type='text'
+                placeholder='name..'
+                className='inp'
+              />
+              <input
+                ref={priceRef}
+                type='number'
+                placeholder='price..'
+                className='inp'
+              />
+              <Button type='reset' onClick={toggleEditing} text='Cancel' />
+              <Button type='submit' text='Save' variant='btn-primary' />
+            </form>
+          ) : (
+            <Button onClick={toggleEditing} text='+Add Item' />
+          )}
+        </li>
       </ul>
     </>
   );
