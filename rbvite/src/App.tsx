@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import Hello, { MyHandler } from './components/Hello';
 import My from './components/My';
 import { flushSync } from 'react-dom';
+import { type LoginHandler } from './components/Login';
 
 const SampleSession = {
   loginUser: { id: 1, name: 'Hong' },
@@ -40,11 +41,25 @@ function App() {
   //   session.loginUser = null;
   //   setSession(session);
   // };
-  const login = (id: number, name: string) =>
+
+  const loginRef = useRef<LoginHandler>(null);
+  const login = (id: number, name: string) => {
+    if (!id) {
+      alert('사용자 ID를 입력하세요!');
+      console.log('>>>', loginRef.current);
+      return loginRef.current?.focus('id');
+    }
+
+    if (!name) {
+      alert('Name을 입력하세요!');
+      return loginRef.current?.focus('name');
+    }
+
     setSession({
       ...session,
       loginUser: { id, name },
     });
+  };
 
   // console.log('Apppppp');
 
@@ -83,6 +98,7 @@ function App() {
         login={login}
         removeCartItem={removeCartItem}
         addCartItem={addCartItem}
+        ref={loginRef}
       />
       <div className='card'>
         <button
