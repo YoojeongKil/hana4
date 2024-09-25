@@ -2,19 +2,20 @@ import { FaPlus } from 'react-icons/fa6';
 import Login from './Login.tsx';
 import Profile from './Profile.tsx';
 import Button from './atoms/Button.tsx';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useSession } from '../hooks/session-context.tsx';
 import Item from './Item.tsx';
+import useToggle from '../hooks/toggle.ts';
 
 export default function My() {
   const { session } = useSession();
-
-  const [isAdding, setIsAdding] = useState(false);
   const logoutButtonRef = useRef<HTMLButtonElement>(null);
 
-  const toggleAdding = () => {
-    setIsAdding((pre) => !pre);
-  };
+  // const [isAdding, setIsAdding] = useState(false);
+  // const toggleAdding = () => {
+  //   setIsAdding((pre) => !pre);
+  // };
+  const [isAdding, toggleAdding] = useToggle();
 
   // const primitive = 123;
 
