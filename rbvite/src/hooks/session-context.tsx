@@ -18,7 +18,7 @@ const SampleSession = {
 };
 
 type LoginUser = typeof SampleSession.loginUser;
-type CartItem = { id: number; name: string; price: number };
+export type CartItem = { id: number; name: string; price: number };
 export type Session = { loginUser: LoginUser | null; cart: CartItem[] };
 
 const contextInitValue = {
@@ -29,6 +29,7 @@ const contextInitValue = {
   },
   removeCartItem: (id: number) => console.log(id),
   addCartItem: (name: string, price: number) => console.log(name, price),
+  editCartItem: (item: CartItem) => console.log(item),
   loginRef: createRef<LoginHandler>(),
 };
 
@@ -75,9 +76,26 @@ export const SessionProvider = ({ children }: PropsWithChildren) => {
     });
   };
 
+  const editCartItem = (item: CartItem) => {
+    setSession({
+      ...session,
+      cart: session.cart.map((oldItem) =>
+        oldItem.id === item.id ? item : oldItem
+      ),
+    });
+  };
+
   return (
     <SessionContext.Provider
-      value={{ session, logout, login, removeCartItem, addCartItem, loginRef }}
+      value={{
+        session,
+        logout,
+        login,
+        removeCartItem,
+        addCartItem,
+        editCartItem,
+        loginRef,
+      }}
     >
       {children}
     </SessionContext.Provider>
