@@ -78,6 +78,13 @@ export default function Item({ item, toggleAdding }: Props) {
     setDirty(name !== currName || price !== currPrice);
   };
 
+  // useLayoutEffect(() => {
+  //   sddaadsffsa
+
+  //   return () => { }
+  // }, [y]);
+  // useEffect(() => {}, [x, y]);
+
   return (
     <>
       {isEditing ? (
