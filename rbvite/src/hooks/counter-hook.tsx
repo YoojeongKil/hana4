@@ -15,6 +15,7 @@ const CounterContext = createContext<CounterContextProps>(contextInitValue);
 export const CounterProvider = ({ children }: PropsWithChildren) => {
   const [count, setCount] = useState(0);
   const plusCount = () => {
+    // console.log('plusCount>>>', count);
     setCount((preCount) => preCount + 1);
 
     // setCount((pre) => {
@@ -28,6 +29,7 @@ export const CounterProvider = ({ children }: PropsWithChildren) => {
     // console.log('🚀  count:', count, document.getElementById('cnt')?.innerText);
   };
   const minusCount = () => {
+    // console.log('minusCount>>>', count);
     // setCount(count - 1);
     setCount((preCount) => preCount - 1);
   };

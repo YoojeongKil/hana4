@@ -2,20 +2,21 @@ import { FaPlus } from 'react-icons/fa6';
 import Login from './Login.tsx';
 import Profile from './Profile.tsx';
 import Button from './atoms/Button.tsx';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSession } from '../hooks/session-context.tsx';
 import Item from './Item.tsx';
 import useToggle from '../hooks/toggle.ts';
+import { useTimeout } from '../hooks/timer-hooks.ts';
 
 export default function My() {
-  const { session } = useSession();
+  const { session, toggleReloadSession } = useSession();
   const logoutButtonRef = useRef<HTMLButtonElement>(null);
 
   // const [isAdding, setIsAdding] = useState(false);
   // const toggleAdding = () => {
   //   setIsAdding((pre) => !pre);
   // };
-  const [isAdding, toggleAdding] = useToggle();
+  const [isAdding, toggleAdding] = useToggle(true);
 
   // const primitive = 123;
 
@@ -25,18 +26,44 @@ export default function My() {
   //   return () => console.log('unmount11!!');
   // }, [primitive, isAdding]);
 
+  let xxx = 0;
   // useEffect(() => {
   //   console.log('*******22');
   //   // alert('login plz...');
 
   //   return () => console.log('unmount22!!');
   // }, []);
+  useTimeout(() => {
+    xxx++;
+  }, 1000);
+
+  useEffect(() => {
+    // const abortController = new AbortController();
+    // const { signal } = abortController;
+    // (async function () {
+    //   try {
+    //     const data = await fetch('/data/sample.json', { signal }).then((res) =>
+    //       res.json()
+    //     );
+    //     console.log('My.data>>', data);
+    //   } catch (error) {
+    //     console.error('Error>>', error);
+    //   }
+    // })();
+    // fetch('/data/sample.json', { signal })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     console.log('data>>', data);
+    //   })
+    //   .catch((error) => console.error('Error>>', error));
+    // return () => abortController.abort('Clean-up in My!');
+  }, []);
 
   return (
     <>
       {session.loginUser ? (
         <div className='flex gap-5'>
-          <Profile ref={logoutButtonRef} />
+          <Profile ref={logoutButtonRef} xxx={xxx} />
           <Button onClick={() => logoutButtonRef.current?.focus()}>
             MySignOut
           </Button>
@@ -59,7 +86,7 @@ export default function My() {
           {isAdding ? (
             <Item
               item={{ id: 0, name: '', price: 0 }}
-              toggleAdding={toggleAdding}
+              toggleAdding={() => toggleAdding()}
             />
           ) : (
             <Button onClick={toggleAdding}>
@@ -68,6 +95,7 @@ export default function My() {
           )}
         </li>
       </ul>
+      <Button onClick={toggleReloadSession}>Reload Session</Button>
     </>
   );
 }
