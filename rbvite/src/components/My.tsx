@@ -16,7 +16,7 @@ export default function My() {
   // const toggleAdding = () => {
   //   setIsAdding((pre) => !pre);
   // };
-  const [isAdding, toggleAdding] = useToggle(true);
+  const [isAdding, toggleAdding] = useToggle();
 
   // const primitive = 123;
 
