@@ -43,7 +43,10 @@ function useTimer<T extends (...args: Parameters<T>) => ReturnType<T>>(
   const setup = useCallback(() => {
     timerRef.current = timerFn(cbRef.current, delay, ...argsRef.current);
   }, [delay, timerFn]);
-  const clear = useCallback(() => clearFn(timerRef.current), [clearFn]);
+  const clear = useCallback(() => {
+    // console.log('useTime.clear.timer>>', timerRef.current);
+    clearFn(timerRef.current);
+  }, [clearFn]);
   const reset = useCallback(() => {
     clear();
     setup();
@@ -71,13 +74,18 @@ export const useDebounce = <T extends (...args: unknown[]) => ReturnType<T>>(
   delay: number,
   depArr: unknown[] = []
 ) => {
-  const { reset, clear } = useTimeout(cb, delay);
-
-  useEffect(() => {
-    reset();
-    return clear;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [...depArr, delay]);
+  const { reset } = useTimeout(cb, delay);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(reset, [...depArr, delay]);
+  // const { reset, clear } = useTimeout(cb, delay);
+  // useEffect(() => {
+  //   reset();
+  //   return () => {
+  //     console.log('useDebounce.clean-up!!');
+  //     clear();
+  //   };
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [...depArr, delay]);
 };
 
 export const useDebounceX = <
