@@ -92,12 +92,11 @@ function Hello({ friend }: Props, ref: ForwardedRef<MyHandler>) {
       <Title text='Hello~' name={loginUser?.name} />
       <Body>
         <h3 className='text-center text-lg'>myState: {myState}</h3>
-        {isLoading && (
+        {isLoading ? (
           <h3 className='flex justify-center'>
             <FaSpinner size={20} className='animate-spin text-slate-500' />
           </h3>
-        )}
-        {error ? (
+        ) : error ? (
           <strong className='text-red-500'>
             {error.message && error.message.startsWith('404')
               ? `Your friend is not found(${friend})`
@@ -105,7 +104,7 @@ function Hello({ friend }: Props, ref: ForwardedRef<MyHandler>) {
           </strong>
         ) : (
           <div className='flex h-10 items-center justify-center rounded-lg shadow-[0_0_10px_purple]'>
-            My friend is {friendInfo?.username}.
+            My friend is {friendInfo?.id}. {friendInfo?.username}.
           </div>
         )}
         <p>
