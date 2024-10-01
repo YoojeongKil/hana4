@@ -3,12 +3,14 @@ import {
   forwardRef,
   ReactNode,
   useImperativeHandle,
-  useState,
+  useReducer,
 } from 'react';
 import { useCounter } from '../hooks/counter-hook';
 import { useSession } from '../hooks/session-context';
 import { useFetch } from '../hooks/fetch-hook';
 import { FaSpinner } from 'react-icons/fa6';
+import { useMyReducer, useMyState } from '../libs/my-uses';
+import Button from './atoms/Button';
 
 type TitleProps = {
   text: string;
@@ -69,7 +71,11 @@ function Hello({ friend }: Props, ref: ForwardedRef<MyHandler>) {
     session: { loginUser },
   } = useSession();
   const { count, plusCount, minusCount } = useCounter();
-  const [myState, setMyState] = useState(0);
+
+  const [p, dispatchP] = useReducer((pre) => pre + 10, 0);
+  const [q, dispatchQ] = useMyReducer((pre) => pre + 10, 0);
+  // const [myState, setMyState] = useState(0);
+  const [myState, setMyState] = useMyState(0);
   let v = 1;
 
   const handler: MyHandler = {
@@ -90,6 +96,9 @@ function Hello({ friend }: Props, ref: ForwardedRef<MyHandler>) {
   return (
     <div className='bg-blackx text-whitex my-5 w-2/3 border border-slate-300 p-3 text-center'>
       <Title text='Hello~' name={loginUser?.name} />
+      p: {p}, q: {q}
+      <Button onClick={dispatchP}>PPP</Button>
+      <Button onClick={dispatchQ}>QQQ</Button>
       <Body>
         <h3 className='text-center text-lg'>myState: {myState}</h3>
         {isLoading ? (

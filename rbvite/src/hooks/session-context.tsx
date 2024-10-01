@@ -4,12 +4,12 @@ import {
   PropsWithChildren,
   useContext,
   useLayoutEffect,
-  useReducer,
   useRef,
 } from 'react';
 import { LoginHandler } from '../components/Login';
 import { useFetch } from './fetch-hook';
 import useToggle from './toggle';
+import { useMyReducer } from '../libs/my-uses';
 
 // const SampleSession = {
 //   loginUser: { id: 1, name: '홍길동' },
@@ -19,8 +19,8 @@ import useToggle from './toggle';
 //     { id: 200, name: '파', price: 5000 },
 //   ],
 // };
-const SampleSession = {
-  loginUser: null,
+const SampleSession: Session = {
+  loginUser: { id: 0, name: '' },
   cart: [],
 };
 
@@ -90,7 +90,8 @@ const SessionContext = createContext<SessionContextProps>(contextInitValue);
 
 export const SessionProvider = ({ children }: PropsWithChildren) => {
   // const [session, setSession] = useState<Session>(SampleSession);
-  const [session, dispatch] = useReducer(reducer, SampleSession);
+  // const [session, dispatch] = useReducer(reducer, SampleSession);
+  const [session, dispatch] = useMyReducer(reducer, SampleSession);
   const [reloadSession, toggleReloadSession] = useToggle();
 
   const { data } = useFetch<Session>('/data/sample.json', true, [
@@ -100,7 +101,7 @@ export const SessionProvider = ({ children }: PropsWithChildren) => {
   useLayoutEffect(() => {
     // setSession(data || SampleSession);
     dispatch({ type: 'intialize', payload: data || SampleSession });
-  }, [data]);
+  }, [data, dispatch]);
 
   const loginRef = useRef<LoginHandler>(null);
 
