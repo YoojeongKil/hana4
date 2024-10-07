@@ -12,6 +12,7 @@ import { NotFound } from './NotFound';
 import Home from './Home';
 import Items from './components/Items';
 import ItemDetail from './components/ItemDetail';
+import ItemLayout from './components/ItemLayout';
 // import { useInterval } from './hooks/timer-hooks';
 // import Button from './components/atoms/Button';
 // import { useCounter } from './hooks/counter-hook';
@@ -75,8 +76,12 @@ function App() {
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
             <Route path='/my' element={<My />} />
-            <Route path='/items' element={<Items />} />
-            <Route path='/items/:id' element={<ItemDetail />} />
+            {/* <Route path='/items' element={<Items />} />
+            <Route path='/items/:id' element={<ItemDetail />} /> */}
+            <Route path='/items' element={<ItemLayout />}>
+              <Route index element={<Items />} />
+              <Route path=':id' element={<ItemDetail />} />
+            </Route>
             <Route
               path='/hello'
               element={
