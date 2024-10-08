@@ -135,23 +135,23 @@ function Hello({ friend = 10 }: Props, ref: ForwardedRef<MyHandler>) {
         </Button>
       </div>
       <Body>
-        <h3 className='text-center text-lg'>myState: {myState}</h3>
+        <h3 className='mb-5 text-center text-lg'>myState: {myState}</h3>
         {isLoading ? (
           <h3 className='flex justify-center'>
             <FaSpinner size={20} className='animate-spin text-slate-500' />
           </h3>
         ) : error ? (
-          <strong className='text-red-500'>
+          <strong className='neon-slate text-primary rounded-md p-3'>
             {error.message && error.message.startsWith('404')
               ? `Your friend is not found(${friend})`
               : error.message}
           </strong>
         ) : (
-          <div className='flex h-10 items-center justify-center rounded-lg shadow-[0_0_10px_purple]'>
+          <div className='flex h-10 items-center justify-center rounded-lg shadow-[0_0_10px_theme("colors.purple.700")]'>
             My friend is {friendInfo?.id}. {friendInfo?.username}.
           </div>
         )}
-        <p>
+        <p className='mt-5'>
           {v} - {friend}
         </p>
       </Body>
