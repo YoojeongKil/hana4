@@ -4,6 +4,9 @@ export default function Nav() {
       <a href='/'>Home</a>
       <a href='/hello'>Hello</a>
       <a href='/hi'>Hi</a>
+      <a href='/shop/aaa'>Shop</a>
+      <a href='/parallel'>Parallel</a>
+      <a href='/intercept'>Intercept</a>
       <a href='/about'>About</a>
     </nav>
   );
