@@ -1,3 +1,3 @@
-export default function ProfileDefault() {
-  return <>Profile Default Page</>;
+export default function Aaa() {
+  return <>@profile/aaa Page</>;
 }

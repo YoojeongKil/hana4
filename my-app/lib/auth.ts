@@ -14,7 +14,7 @@ export const {
       name: 'Email',
       credentials: {
         email: {
-          label: 'Email',
+          label: '이메일',
           type: 'email',
           placeholder: 'example@example.com',
         },
@@ -34,17 +34,9 @@ export const {
     GitHub,
   ],
   callbacks: {
-    authorized({ auth, request: { nextUrl } }) {
-      const didLogin = !!auth?.user;
-      console.log(
-        '🚀 auth.ts > callbacks > authorized - didLogin:',
-        didLogin,
-        nextUrl.pathname
-      );
-
-      // if (didLogin) return Response.redirect(new URL('/about', nextUrl));
-
-      return true;
+    session({ session }) {
+      console.log('🚀 cb - session:', session);
+      return session;
     },
   },
 });
