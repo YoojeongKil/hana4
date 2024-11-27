@@ -6,16 +6,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Dept {
-	private int id, pid, captain, depth;
+	private int id, pid, depth;
+	private Integer captain;
 	private String dname, captainName;
 
 	public boolean getIsTop() {
 		return this.pid == 0;
 	}
-
-	// public String getCaptainNameDisp() {
-	// 	return captainName == null ? "공석" : captainName;
-	// }
 
 	@Override
 	public String toString() {
