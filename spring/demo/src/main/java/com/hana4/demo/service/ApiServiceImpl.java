@@ -2,6 +2,7 @@ package com.hana4.demo.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hana4.demo.dao.ApiDAO;
@@ -12,6 +13,7 @@ import com.hana4.demo.entity.User;
 public class ApiServiceImpl implements ApiService {
 	private final ApiDAO dao;
 
+	@Autowired
 	public ApiServiceImpl(ApiDAO dao) {
 		this.dao = dao;
 	}
@@ -42,4 +44,5 @@ public class ApiServiceImpl implements ApiService {
 	public UserDTO removeUser(Long id) {
 		return dao.delete(id).toDTO();
 	}
+
 }
