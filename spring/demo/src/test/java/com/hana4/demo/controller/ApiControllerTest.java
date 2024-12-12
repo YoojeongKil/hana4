@@ -1,4 +1,4 @@
-package com.hana4.demo.constroller;
+package com.hana4.demo.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;

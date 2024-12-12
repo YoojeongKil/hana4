@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 public enum Lang {
-	DEFULT("한국어", Locale.KOREAN),
+	DEFAULT("한국어", Locale.KOREAN),
 	ENGLISH("English", Locale.ENGLISH),
 	CHINESE("中國", Locale.CHINESE),
 	GERMAN("Deutsch", Locale.GERMAN),

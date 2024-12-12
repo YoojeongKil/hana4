@@ -1,4 +1,4 @@
-package com.hana4.demo.constroller;
+package com.hana4.demo.controller;
 
 public class PostIntegrationTest {
 }

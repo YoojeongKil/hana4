@@ -1,4 +1,4 @@
-package com.hana4.demo.constroller;
+package com.hana4.demo.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
@@ -13,7 +13,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.hana4.demo.controller.PostController;
 import com.hana4.demo.dto.PostDTO;
 import com.hana4.demo.service.PostService;
 
